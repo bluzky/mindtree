@@ -38,8 +38,8 @@ const dir = src => path.join(__dirname, src);
 
 const paths = {
   src: dir("../src"),
-  build: dir("../build/static"),
-  public_path: "/build/",
+  build: dir("../dist"),
+  public_path: "/dist/",
   js_source_dir: ""
 };
 
@@ -57,9 +57,8 @@ const outputFiles = {
 // --------------------
 
 const entries = {
-  app: "js/index.js",
-  admin: "js/admin.js",
-  "page/test": "js/page/test.js"
+  index: "js/index.js",
+  minddown: "js/minddown.js"
 };
 
 // -----------------

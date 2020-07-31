@@ -5,7 +5,7 @@
   "description": "Project description",
   "scripts": {
     "watch": "webpack --watch --progress --mode development",
-    "start": "webpack-dev-server",
+    "start": "webpack-dev-server ",
     "dev": "webpack --mode development",
     "clean": "shx rm -rf build/static",
     "build": "npm run clean && cross-env NODE_ENV=\"production\" webpack"
@@ -38,6 +38,7 @@
     "node-sass": "^4.5.3",
     "postcss-cssnext": "^3.0.2",
     "postcss-loader": "^3.0.0",
+    "random-graph": "^0.0.3",
     "sass-loader": "^9.0.2",
     "shx": "^0.3.2",
     "style-loader": "^1.2.1",
