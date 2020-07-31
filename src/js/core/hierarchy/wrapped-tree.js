@@ -26,7 +26,7 @@ class WrappedTree {
   c = [];
   cs = 0;
 
-  constructor (w, h, y, c = []) {
+  constructor(w, h, y, c = []) {
     this.w = w
     this.h = h
     this.y = y
@@ -45,4 +45,4 @@ WrappedTree.fromNode = (root, isHorizontal) => {
   return new WrappedTree(root.width, root.height, root.y, children)
 }
 
-module.exports = WrappedTree
+export default WrappedTree

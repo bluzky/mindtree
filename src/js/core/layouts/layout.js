@@ -1,18 +1,19 @@
-const Node = require('../hierarchy/node')
+import Node from '../hierarchy/node'
+
 
 class Layout {
-  constructor (root, options = {}, extraEdges = []) {
+  constructor(root, options = {}, extraEdges = []) {
     const me = this
     me.root = new Node(root, options)
     me.options = options
     me.extraEdges = extraEdges
   }
 
-  doLayout () {
+  doLayout() {
     throw new Error('please override this method')
   }
 
-  getNodes () {
+  getNodes() {
     const root = this.root
     const nodes = []
     let countByDepth = {}
@@ -42,7 +43,7 @@ class Layout {
     return nodes
   }
 
-  getEdges () {
+  getEdges() {
     const me = this
     const extraEdges = me.extraEdges
     const root = this.root
@@ -60,4 +61,4 @@ class Layout {
   }
 }
 
-module.exports = Layout
+export default Layout 

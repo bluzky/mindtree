@@ -1,6 +1,6 @@
 const lineColor = '#999'
 
-function drawLine(n, c, ctx, isHorizontal = false, scale = 1){
+function drawLine(n, c, ctx, isHorizontal = false, scale = 1) {
   let beginNode = n
   let endNode = c
   let beginX
@@ -54,6 +54,6 @@ function drawLine(n, c, ctx, isHorizontal = false, scale = 1){
   return ctx.stroke()
 }
 
-export default {
+export default
   drawLine
-}
+

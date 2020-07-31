@@ -1,7 +1,7 @@
-const WrappedTree = require('../hierarchy/wrapped-tree')
+import WrappedTree from '../hierarchy/wrapped-tree'
 
 // node utils
-function moveRight (node, move, isHorizontal) {
+function moveRight(node, move, isHorizontal) {
   if (isHorizontal) {
     node.y += move
   } else {
@@ -12,7 +12,7 @@ function moveRight (node, move, isHorizontal) {
   })
 }
 
-function getMin (node, isHorizontal) {
+function getMin(node, isHorizontal) {
   let res = isHorizontal ? node.y : node.x
   node.children.forEach(child => {
     res = Math.min(getMin(child, isHorizontal), res)
@@ -20,12 +20,12 @@ function getMin (node, isHorizontal) {
   return res
 }
 
-function normalize (node, isHorizontal) {
+function normalize(node, isHorizontal) {
   const min = getMin(node, isHorizontal)
   moveRight(node, -min, isHorizontal)
 }
 
-function convertBack (converted/* Tree */, root/* TreeNode */, isHorizontal) {
+function convertBack(converted/* Tree */, root/* TreeNode */, isHorizontal) {
   if (isHorizontal) {
     root.y = converted.x
   } else {
@@ -36,7 +36,7 @@ function convertBack (converted/* Tree */, root/* TreeNode */, isHorizontal) {
   })
 }
 
-function layer (node, isHorizontal, d = 0) {
+function layer(node, isHorizontal, d = 0) {
   if (isHorizontal) {
     node.x = d
     d += node.width
@@ -49,8 +49,8 @@ function layer (node, isHorizontal, d = 0) {
   })
 }
 
-module.exports = (root, isHorizontal) => {
-  function firstWalk (t) {
+export default (root, isHorizontal) => {
+  function firstWalk(t) {
     if (t.cs === 0) {
       setExtremes(t)
       return
@@ -67,7 +67,7 @@ module.exports = (root, isHorizontal) => {
     setExtremes(t)
   }
 
-  function setExtremes (t) {
+  function setExtremes(t) {
     if (t.cs === 0) {
       t.el = t
       t.er = t
@@ -80,7 +80,7 @@ module.exports = (root, isHorizontal) => {
     }
   }
 
-  function separate (t, i, ih) {
+  function separate(t, i, ih) {
     let sr = t.c[i - 1]
     let mssr = sr.mod
     let cl = t.c[i]
@@ -110,26 +110,26 @@ module.exports = (root, isHorizontal) => {
     }
   }
 
-  function moveSubtree (t, i, si, dist) {
+  function moveSubtree(t, i, si, dist) {
     t.c[i].mod += dist
     t.c[i].msel += dist
     t.c[i].mser += dist
     distributeExtra(t, i, si, dist)
   }
 
-  function nextLeftContour (t) {
+  function nextLeftContour(t) {
     return t.cs === 0 ? t.tl : t.c[0]
   }
 
-  function nextRightContour (t) {
+  function nextRightContour(t) {
     return t.cs === 0 ? t.tr : t.c[t.cs - 1]
   }
 
-  function bottom (t) {
+  function bottom(t) {
     return t.y + t.h
   }
 
-  function setLeftThread (t, i, cl, modsumcl) {
+  function setLeftThread(t, i, cl, modsumcl) {
     const li = t.c[0].el
     li.tl = cl
     const diff = (modsumcl - cl.mod) - t.c[0].msel
@@ -139,7 +139,7 @@ module.exports = (root, isHorizontal) => {
     t.c[0].msel = t.c[i].msel
   }
 
-  function setRightThread (t, i, sr, modsumsr) {
+  function setRightThread(t, i, sr, modsumsr) {
     const ri = t.c[i].er
     ri.tr = sr
     const diff = (modsumsr - sr.mod) - t.c[i].mser
@@ -149,14 +149,14 @@ module.exports = (root, isHorizontal) => {
     t.c[i].mser = t.c[i - 1].mser
   }
 
-  function positionRoot (t) {
+  function positionRoot(t) {
     t.prelim = (
-        t.c[0].prelim + t.c[0].mod + t.c[t.cs - 1].mod +
-        t.c[t.cs - 1].prelim + t.c[t.cs - 1].w
-      ) / 2 - t.w / 2
+      t.c[0].prelim + t.c[0].mod + t.c[t.cs - 1].mod +
+      t.c[t.cs - 1].prelim + t.c[t.cs - 1].w
+    ) / 2 - t.w / 2
   }
 
-  function secondWalk (t, modsum) {
+  function secondWalk(t, modsum) {
     modsum += t.mod
     t.x = t.prelim + modsum
     addChildSpacing(t)
@@ -165,7 +165,7 @@ module.exports = (root, isHorizontal) => {
     }
   }
 
-  function distributeExtra (t, i, si, dist) {
+  function distributeExtra(t, i, si, dist) {
     if (si !== i - 1) {
       const nr = i - si
       t.c[si + 1].shift += dist / nr
@@ -174,7 +174,7 @@ module.exports = (root, isHorizontal) => {
     }
   }
 
-  function addChildSpacing (t) {
+  function addChildSpacing(t) {
     let d = 0
     let modsumdelta = 0
     for (let i = 0; i < t.cs; i++) {
@@ -184,7 +184,7 @@ module.exports = (root, isHorizontal) => {
     }
   }
 
-  function updateIYL (low, index, ih) {
+  function updateIYL(low, index, ih) {
     while (ih !== null && low >= ih.low) {
       ih = ih.nxt
     }

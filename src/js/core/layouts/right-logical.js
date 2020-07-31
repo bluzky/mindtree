@@ -1,11 +1,11 @@
-const Layout = require('./layout')
-const nonLayeredTidyTree = require('../algorithms/non-layered-tidy-tree')
+import Layout from './layout'
+import nonLayeredTidyTree from '../algorithms/non-layered-tidy-tree'
 
 class RightLogical extends Layout {
-  doLayout () {
+  doLayout() {
     const root = this.root
     return nonLayeredTidyTree(root, true)
   }
 }
 
-module.exports = RightLogical
+export { RightLogical }

@@ -1,4 +1,4 @@
-const randomColor = require('./random-color')
+import randomColor from './random-color'
 
 const PEM = 18
 
@@ -30,6 +30,6 @@ function drawNode(node, ctx, scale = 1) {
   return ctx.fillText(origin.name, (x + PEM * 0.8) / scale, (y + (origin.isRoot ? PEM * 2 : PEM * 1)) / scale)
 }
 
-export default {
+export default
   drawNode
-}
+

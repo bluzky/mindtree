@@ -1,16 +1,15 @@
-const RightLogical = require('./core/layouts/right-logical')
-const DownwardOrganizational = require('./core/layouts/downward-organizational')
-const UpwardOrganizational = require('./core/layouts/upward-organizational')
-const LeftLogical = require('./core/layouts/left-logical')
-const Standard = require('./core/layouts/standard')
-const {
+import { RightLogical } from './core/layouts/right-logical'
+import DownwardOrganizational from './core/layouts/downward-organizational'
+import UpwardOrganizational from './core/layouts/upward-organizational'
+import LeftLogical from './core/layouts/left-logical'
+import Standard from './core/layouts/standard'
+import {
   Node,
   WrappedTree
-} = require('./core/hierarchy/index')
+} from './core/hierarchy/index'
 
-console.log("HELLO")
 
-module.exports = {
+export default {
   RightLogical,
   DownwardOrganizational,
   UpwardOrganizational,

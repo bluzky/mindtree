@@ -1,11 +1,11 @@
-const Layout = require('./layout')
-const nonLayeredTidyTree = require('../algorithms/non-layered-tidy-tree')
+import Layout from './layout'
+import nonLayeredTidyTree from '../algorithms/non-layered-tidy-tree'
 
 class DownwardOrganizational extends Layout {
-  doLayout () {
+  doLayout() {
     const root = this.root
     return nonLayeredTidyTree(root, false)
   }
 }
 
-module.exports = DownwardOrganizational
+export default DownwardOrganizational

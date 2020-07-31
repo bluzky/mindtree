@@ -1,4 +1,5 @@
-const manifest = require("../manifest");
+const manifest = require("../manifest"),
+  MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = [
   // vue
@@ -12,81 +13,75 @@ module.exports = [
   //   }
   // },
 
-  // preact
-
   // {
-  // 	test: /\.jsx?$/,
-  // 	exclude: manifest.paths.src,
-  // 	enforce: 'pre',
-  // 	use: 'source-map-loader'
-  // },
-  // {
-  // 	test: /\.jsx?$/,
-  // 	exclude: /node_modules/,
-  // 	use: 'babel-loader'
+  //   test: /\.svelte$/,
+  //   exclude: /node_modules/,
+  //   use: {
+  //     loader: "svelte-loader",
+  //     options: {
+  //       emitCss: true,
+  //       hotReload: true
+  //     }
+  //   }
   // },
 
+  // js
   {
-    test: /\.svelte$/,
-    exclude: /node_modules/,
+    test: /\.js$/,
+    exclude: /(node_modules)/,
     use: {
-      loader: "svelte-loader",
+      loader: 'babel-loader',
       options: {
-        emitCss: true,
-        hotReload: true
+        presets: ['@babel/preset-env']
       }
     }
   },
 
-  // js
   {
-    test: /\.(js)$/,
-    exclude: /(node_modules|build|dist\/)/,
+    // Now we apply rule for images
+    test: /\.(png|jpe?g|gif|svg)$/,
     use: [
       {
-        loader: "babel-loader",
+        // Using file-loader for these files
+        loader: "file-loader",
+
+        // In options we can set different things like format
+        // and directory to save
         options: {
-          presets: [
-            [
-              "@babel/preset-env",
-              {
-                targets: {
-                  browsers: ["last 2 versions", "> 2%"]
-                },
-                exclude: ["transform-classes"]
-              }
-            ]
-          ],
-          plugins: [
-            "@babel/plugin-proposal-class-properties",
-            "@babel/plugin-proposal-object-rest-spread",
-            "@babel/plugin-syntax-dynamic-import",
-            // "transform-custom-element-classes",
-            // ["@babel/plugin-transform-react-jsx", { pragma: "h" }],
-            // "babel-plugin-transform-object-rest-spread",
-            "@babel/plugin-transform-arrow-functions"
-            // "@babel/plugin-proposal-class-properties",
-            // "@babel/plugin-syntax-dynamic-import"
-          ]
+          outputPath: 'images'
         }
       }
     ]
   },
 
-  // image
   {
-    test: /\.(png|gif|jpg|svg)$/i,
+    // Apply rule for .sass, .scss or .css files
+    test: /\.(sa|sc|c)ss$/,
+
+    // Set loaders to transform files.
+    // Loaders are applying from right to left(!)
+    // The first loader will be applied after others
     use: [
       {
-        loader: "file-loader?limit=2000",
+        loader: MiniCssExtractPlugin.loader
+      },
+      {
+        // This loader resolves url() and @imports inside CSS
+        loader: "css-loader",
+      },
+      {
+        // Then we apply postCSS fixes like autoprefixer and minifying
+        loader: "postcss-loader"
+      },
+      {
+        // First we transform SASS to standard CSS
+        loader: "sass-loader",
         options: {
-          outputPath: "images"
+          implementation: require("sass")
         }
       }
     ]
   },
-  require("./css"),
-  require("./sass"),
 
   // fonts
   {

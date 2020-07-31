@@ -25,7 +25,7 @@ const path = require("path"),
 
 var entries = {};
 for (var key in manifest.entries) {
-  entries[key] = path.join(manifest.paths.src, manifest.paths.js_source_dir, manifest.entries[key]);
+  entries[key] = path.join(manifest.paths.src, manifest.entries[key]);
 }
 
 // ---------------
@@ -100,7 +100,7 @@ var devServer = {
 
 module.exports = {
   devtool: manifest.IS_PRODUCTION ? false : "inline-source-map",
-  context: path.join(manifest.paths.src, manifest.paths.js_source_dir),
+  context: manifest.paths.src,
   entry: entries,
   output: {
     path: manifest.paths.build,

@@ -1,4 +1,6 @@
-module.exports = {
-  Node: require('./node'),
-  WrappedTree: require('./wrapped-tree')
+import Node from "./node"
+import WrappedTree from "./wrapped-tree"
+export {
+  Node,
+  WrappedTree
 }

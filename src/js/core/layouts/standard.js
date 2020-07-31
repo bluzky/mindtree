@@ -1,9 +1,9 @@
-const Layout = require('./layout')
-const Node = require('../hierarchy/node')
-const nonLayeredTidyTree = require('../algorithms/non-layered-tidy-tree')
+import Layout from './layout'
+import Node from '../hierarchy/node'
+import nonLayeredTidyTree from '../algorithms/non-layered-tidy-tree'
 
 class Standard extends Layout {
-  doLayout () {
+  doLayout() {
     const me = this
     const root = me.root
     const options = me.options
@@ -37,4 +37,4 @@ class Standard extends Layout {
   }
 }
 
-module.exports = Standard
+export default Standard

@@ -3,34 +3,34 @@ const DEFAULT_HEIGHT = PEM * 2
 const DEFAULT_GAP = PEM
 
 const DEFAULT_OPTIONS = {
-  getId (d) {
+  getId(d) {
     return d.id || d.name
   },
-  getHGap (d) {
+  getHGap(d) {
     return d.hgap || DEFAULT_GAP
   },
-  getVGap (d) {
+  getVGap(d) {
     return d.vgap || DEFAULT_GAP
   },
-  getChildren (d) {
+  getChildren(d) {
     return d.children
   },
-  getHeight (d) {
+  getHeight(d) {
     return d.height || DEFAULT_HEIGHT
   },
-  getWidth (d) {
+  getWidth(d) {
     const name = d.name || ' '
     return d.width || (name.split('').length * PEM)
   }
 }
 
-function fallbackExecuteOnData (func1, func2, data) {
+function fallbackExecuteOnData(func1, func2, data) {
   if (func1) return func1(data)
   return func2(data)
 }
 
 class Node {
-  constructor (data, options = {}, isolated) {
+  constructor(data, options = {}, isolated) {
     const me = this
     me.vgap = me.hgap = 0
     if (data instanceof Node) return data
@@ -68,11 +68,11 @@ class Node {
     me.addGap(hgap, vgap)
   }
 
-  isRoot () {
+  isRoot() {
     return (this.depth === 0)
   }
 
-  addGap (hgap, vgap) {
+  addGap(hgap, vgap) {
     const me = this
     me.hgap += hgap
     me.vgap += vgap
@@ -80,7 +80,7 @@ class Node {
     me.height += 2 * vgap
   }
 
-  eachNode (callback) {
+  eachNode(callback) {
     const me = this
     let nodes = [me]
     let current = null
@@ -90,7 +90,7 @@ class Node {
     }
   }
 
-  getBoundingBox () {
+  getBoundingBox() {
     const bb = {
       left: Number.MAX_VALUE,
       top: Number.MAX_VALUE,
@@ -106,14 +106,14 @@ class Node {
     return bb
   }
 
-  translate (tx = 0, ty = 0) {
+  translate(tx = 0, ty = 0) {
     this.eachNode(node => {
       node.x += tx
       node.y += ty
     })
   }
 
-  right2left () {
+  right2left() {
     const me = this
     const bb = me.getBoundingBox()
     me.eachNode(node => {
@@ -122,7 +122,7 @@ class Node {
     me.translate(bb.width, 0)
   }
 
-  down2up () {
+  down2up() {
     const me = this
     const bb = me.getBoundingBox()
     me.eachNode(node => {
@@ -132,4 +132,5 @@ class Node {
   }
 }
 
-module.exports = Node
+
+export default Node  
