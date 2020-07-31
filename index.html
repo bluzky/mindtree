@@ -1,21 +1,105 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Webpack 4 starter kit</title>
-    <link rel="stylesheet" type="text/css" href="build/static/css/commons.css"
-    <link rel="stylesheet" type="text/css" href="build/static/css/app.css"
-  </head>
+<html lang="en">
 
-  <body class="commingsoon" style="">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12 text-center p-5 h1">
-          Hello Webpack4!
-        </div>
-      </div>
-    </div>
-    <script src="build/static/js/commons.js"></script>
-    <script src="build/static/js/app.js"></script>
-  </body>
-</html> 
+<head>
+  <meta charset="UTF-8">
+  <title>demos</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+    }
+
+    aside {
+      position: absolute;
+      right: 2px;
+      bottom: 2px;
+      padding: .5em;
+      border: 1px solid gray;
+      background-color: white;
+      opacity: 0.5;
+    }
+
+    aside:hover {
+      opacity: 0.9;
+    }
+
+    form {
+      margin-bottom: .5em;
+    }
+
+    table,
+    table thead {
+      width: 100%;
+      border: 1px solid #cbcbcb;
+      empty-cells: show;
+      border-collapse: collapse;
+      border-spacing: 0;
+    }
+
+    table td,
+    table th {
+      border-left: 1px solid #cbcbcb;
+    }
+
+    table td {
+      text-align: right;
+    }
+
+    .container {
+      text-align: center;
+      height: 100%;
+      width: 100%;
+    }
+
+    canvas {
+      max-width: 100%;
+      max-height: 100%;
+    }
+  </style>
+</head>
+
+<body>
+
+  <aside>
+    <form id="layout-props" class="layout-props">
+      <input name="dataSize" type="number" min="1" value="20">
+      <select name="layoutType">
+        <option value="Standard">Standard</option>
+        <option value="RightLogical">Right Logical</option>
+        <option value="DownwardOrganizational">Downward Organizational</option>
+        <option value="UpwardOrganizational">Upward Organizational</option>
+        <option value="LeftLogical">Left Logical</option>
+      </select>
+    </form>
+    <table>
+      <thead>
+        <tr>
+          <th>layout time(ms)</th>
+          <th>render time(ms)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td id="layout-time">0</td>
+          <td id="render-time">0</td>
+        </tr>
+      </tbody>
+    </table>
+  </aside>
+  <div class="container" id="container">
+    <canvas id="canvas"></canvas>
+  </div>
+  <script src="./dist/js/commons.js"></script>
+  <script src="./dist/js/minddown.js"></script>
+  <script src="./dist/js/index.js"></script>
+</body>
+
+</html>
