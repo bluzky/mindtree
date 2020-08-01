@@ -16,10 +16,8 @@ export default
           length: 0,
           maxLength: 16,
           categories: [
-            'japanese',
             'letter',
-            'chinese',
-            'special'
+            'number'
           ]
         }
       }

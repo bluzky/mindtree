@@ -1,5 +1,5 @@
 import Node from "./node"
-import WrappedTree from "./wrapped-tree"
+import WrappedTree from "./tree"
 export {
   Node,
   WrappedTree
