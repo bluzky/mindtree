@@ -1,6 +1,8 @@
+import Two from "two.js"
+
 const lineColor = '#999'
 
-function drawLine(n, c, ctx, isHorizontal = false, scale = 1) {
+function drawLine(n, c, two, isHorizontal = false, scale = 1) {
   let beginNode = n
   let endNode = c
   let beginX
@@ -35,25 +37,21 @@ function drawLine(n, c, ctx, isHorizontal = false, scale = 1) {
     endY = Math.round(endNode.y + endNode.height / 2)
   }
   // console.log(`(${beginX}, ${beginY}), (${endX}, ${endY})`)
-  ctx.strokeStyle = lineColor
-  ctx.beginPath()
-  ctx.moveTo(beginX / scale, beginY / scale)
+  let anchors = []
+
   if (isHorizontal) {
-    ctx.bezierCurveTo(
-      Math.round(beginX + (beginNode.hgap + endNode.hgap) / 2) / scale, beginY / scale,
-      Math.round(endX - (beginNode.hgap + endNode.hgap) / 2) / scale, endY / scale,
-      endX / scale, endY / scale
-    )
+    anchors.push(new Two.Anchor(beginX, beginY, 0, 0, (beginNode.hgap + endNode.hgap) / 2, 0))
+    anchors.push(new Two.Anchor(endX, endY, - (beginNode.hgap + endNode.hgap) / 2, 0, 0, 0))
   } else {
-    ctx.bezierCurveTo(
-      beginX / scale, Math.round(beginY + (beginNode.vgap + endNode.vgap) / 2) / scale,
-      endX / scale, Math.round(endY - (beginNode.vgap + endNode.vgap) / 2) / scale,
-      endX / scale, endY / scale
-    )
+
+    anchors.push(new Two.Anchor(beginX, beginY, 0, 0, 0, (beginNode.vgap + endNode.vgap) / 2))
+    anchors.push(new Two.Anchor(endX, endY, 0, - (beginNode.vgap + endNode.vgap) / 2, 0, 0))
   }
-  return ctx.stroke()
+
+  let path = new Two.Path(anchors, false, true)
+  path.stroke = lineColor
+  two.add(path)
 }
 
-export default
-  drawLine
+export default drawLine
 

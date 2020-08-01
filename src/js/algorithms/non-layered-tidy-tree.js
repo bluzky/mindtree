@@ -1,4 +1,4 @@
-import WrappedTree from '../hierarchy/wrapped-tree'
+import WrappedTree from '../structure/tree'
 
 // node utils
 function moveRight(node, move, isHorizontal) {

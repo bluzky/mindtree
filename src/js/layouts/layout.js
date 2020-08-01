@@ -1,4 +1,4 @@
-import Node from '../hierarchy/node'
+import Node from '../structure/node'
 
 
 class Layout {

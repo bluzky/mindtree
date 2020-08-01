@@ -1,5 +1,5 @@
 import Layout from './layout'
-import Node from '../hierarchy/node'
+import Node from '../structure/node'
 import nonLayeredTidyTree from '../algorithms/non-layered-tidy-tree'
 
 class Standard extends Layout {
