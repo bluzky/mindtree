@@ -1,4 +1,4 @@
-import randomColor from './random-color'
+import randomColor from '../sample/random-color'
 
 const PEM = 18
 

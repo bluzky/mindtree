@@ -1,26 +1,16 @@
+import Two from 'two.js'
+
 const PEM = 18
 const DEFAULT_HEIGHT = PEM * 2
-const DEFAULT_GAP = PEM
 
 const DEFAULT_OPTIONS = {
   styles: {
-    "font-size": PEM
+    font_size: PEM
   },
   horizontal_gap: PEM,
-  vertical_gap: PEM,
-  getHeight(d) {
-    return d.height || DEFAULT_HEIGHT
-  },
-  getWidth(d) {
-    const name = d.name || ' '
-    return d.width || (name.split('').length * PEM)
-  }
+  vertical_gap: PEM
 }
 
-function fallbackExecuteOnData(func1, func2, data) {
-  if (func1) return func1(data)
-  return func2(data)
-}
 
 class Node {
   constructor(data, options = {}, isolated, parent) {
@@ -30,15 +20,12 @@ class Node {
 
     this.id = data.id
     this.data = data
-    this.content = data.content
+    this.content = data.name
     this.vgap = this.hgap = 0
-    this.x = this.y = 0
-    this.width = fallbackExecuteOnData(options.getWidth, DEFAULT_OPTIONS.getWidth, data)
-    this.height = fallbackExecuteOnData(options.getHeight, DEFAULT_OPTIONS.getHeight, data)
     this.x = this.y = 0
 
     /* Next milestone */
-    this.styles = {}
+    this.styles = options.styles
     this.shape = null
     this.type = null // box | line
     this.className = ""
@@ -59,6 +46,8 @@ class Node {
       }
     }
 
+    this.width = this.getWidth()
+    this.height = this.getHeight()
     this.addGap(options.horizontal_gap, options.vertical_gap)
   }
 
@@ -71,6 +60,23 @@ class Node {
     this.vgap += vgap
     this.width += 2 * hgap
     this.height += 2 * vgap
+  }
+
+  getHeight() {
+    if (this.isRoot()) {
+      return this.styles.font_size * 2.4
+    }
+    return this.styles.font_size * 1.6
+  }
+
+  getWidth() {
+    var text = new Two.Text(this.content, 0, 0)
+    text.size = this.styles.font_size
+
+    if (this.isRoot()) {
+      return text.getBoundingClientRect().width * 2 + this.styles.font_size * 1.6
+    }
+    return text.getBoundingClientRect().width + this.styles.font_size * 1.6
   }
 
   eachNode(callback) {

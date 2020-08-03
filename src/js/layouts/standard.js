@@ -3,6 +3,10 @@ import Node from '../structure/node'
 import autoLayout from '../algorithms/auto-layout'
 
 class Standard extends Layout {
+  isHorizontal() {
+    return true
+  }
+
   doLayout() {
     const me = this
     const root = me.root

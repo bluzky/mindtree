@@ -1,4 +1,6 @@
 import Two from "two.js"
+import drawLink from './renderer/draw-line'
+import drawNode from './renderer/draw-node'
 
 /*
 { width: 500, height: 500 }
@@ -6,15 +8,23 @@ import Two from "two.js"
 class Renderer {
     constructor(selector, options) {
         let el = document.querySelector(selector)
-        if(el == null){
-            throw("Invalid selector")
+        if (el == null) {
+            throw ("Invalid selector")
         }
-      this.two = new Two(options).appendTo(el)
+        this.two = new Two(options).appendTo(el)
     }
 
-    render(tree, layout){
-        this.tree = tree
-        this.layout = layout
+    render(mindMap) {
+        this.two.clear()
+        mindMap
+            .getRootNode()
+            .eachNode(node => {
+                node.children.forEach(child => {
+                    drawLink(node, child, this.two, mindMap.isHorizontalLayout())
+                })
+                drawNode(node, this.two, 1)
+            })
+        this.two.update()
     }
 }
 
