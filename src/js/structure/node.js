@@ -32,6 +32,7 @@ class Node {
     this.data = data
     this.content = data.content
     this.vgap = this.hgap = 0
+    this.x = this.y = 0
     this.width = fallbackExecuteOnData(options.getWidth, DEFAULT_OPTIONS.getWidth, data)
     this.height = fallbackExecuteOnData(options.getHeight, DEFAULT_OPTIONS.getHeight, data)
     this.x = this.y = 0

@@ -1,4 +1,105 @@
-import { BoundingBox, Layout, Tree, layout } from 'non-layered-tidy-tree-layout'
+import { BoundingBox, Tree, layout } from 'non-layered-tidy-tree-layout'
+
+class Layout {
+  constructor(boundingBox) {
+    this.bb = boundingBox
+  }
+
+  /**
+   * Layout treeData.
+   * Return modified treeData and the bounding box encompassing all the nodes.
+   * 
+   * See getSize() for more explanation.
+   */
+  layout(treeData) {
+    const tree = this.convert(treeData)
+    layout(tree)
+    const { boundingBox, result } = this.assignLayout(tree, treeData)
+
+    return { result, boundingBox }
+  }
+
+  /**
+   * Returns Tree to layout, with bounding boxes added to each node.
+   */
+  convert(treeData, y = 0) {
+    if (treeData === null) return null
+
+    const { width, height } = this.bb.addBoundingBox(
+      treeData.width,
+      treeData.height
+    )
+    let children = []
+    if (treeData.children && treeData.children.length) {
+      for (let i = 0; i < treeData.children.length; i++) {
+        children[i] = this.convert(treeData.children[i], y + height)
+      }
+    }
+
+    return new Tree(width, height, y, children)
+  }
+
+  /**
+   * Assign layout tree x, y coordinates back to treeData,
+   * with bounding boxes removed.
+   */
+  assignCoordinates(tree, treeData) {
+    const { x, y } = this.bb.removeBoundingBox(tree.x, tree.y)
+    treeData.x = x
+    treeData.y = y
+    for (let i = 0; i < tree.c.length; i++) {
+      this.assignCoordinates(tree.c[i], treeData.children[i])
+    }
+    return treeData
+  }
+
+  /**
+   * This function does assignCoordinates and getSize in one pass.
+   */
+  assignLayout(tree, treeData, box = null) {
+    return {
+      result: this.assignCoordinates(tree, treeData)
+    }
+  }
+}
+
+class HorizontalLayout extends Layout {
+  /**
+   * Returns Tree to layout, with bounding boxes added to each node.
+   */
+  convert(treeData, x = 0) {
+    if (treeData === null) return null
+
+    const { width, height } = this.bb.addBoundingBox(
+      treeData.height,
+      treeData.width
+    )
+    let children = []
+    if (treeData.children && treeData.children.length) {
+      for (let i = 0; i < treeData.children.length; i++) {
+        children[i] = this.convert(treeData.children[i], x + height)
+      }
+    }
+
+    return new Tree(width, height, x, children)
+  }
+
+  /**
+   * Assign layout tree x, y coordinates back to treeData,
+   * with bounding boxes removed.
+   */
+  assignCoordinates(tree, treeData) {
+    const { x, y } = this.bb.removeBoundingBox(tree.x, tree.y)
+    treeData.x = y
+    treeData.y = x
+    for (let i = 0; i < tree.c.length; i++) {
+      this.assignCoordinates(tree.c[i], treeData.children[i])
+    }
+    return treeData
+  }
+
+
+}
 
 // node utils
 function moveRight(node, delta, isHorizontal) {
@@ -13,64 +114,17 @@ function moveRight(node, delta, isHorizontal) {
   node.translate(tx, ty)
 }
 
-function getMin(node, isHorizontal) {
-  let res = isHorizontal ? node.y : node.x
-  node.children.forEach(child => {
-    res = Math.min(getMin(child, isHorizontal), res)
-  })
-  return res
-}
 
-function normalize(node, isHorizontal) {
-  const min = getMin(node, isHorizontal)
-  console.log(min)
-  moveRight(node, -min, isHorizontal)
-}
-
-function convertBack(converted/* Tree */, root/* TreeNode */, isHorizontal) {
-  if (isHorizontal) {
-    root.y = converted.x
-  } else {
-    root.x = converted.x
-  }
-  converted.c.forEach((child, i) => {
-    convertBack(child, root.children[i], isHorizontal)
-  })
-}
-
-function layer(node, isHorizontal, d = 0) {
-  if (isHorizontal) {
-    node.x = d
-    d += node.width
-  } else {
-    node.y = d
-    d += node.height
-  }
-  node.children.forEach(child => {
-    layer(child, isHorizontal, d)
-  })
-}
-
-function treeFromNode(root, isHorizontal) {
-  if (!root) return null
-  const children = []
-  root.children.forEach((child) => {
-    children.push(treeFromNode(child, isHorizontal))
-  })
-  if (isHorizontal) return new Tree(root.height, root.width, root.x, children)
-  return new Tree(root.width, root.height, root.y, children)
-}
 
 function autoLayout(root, isHorizontal) {
-
   const bb = new BoundingBox(10, 20)
-  const layout = new Layout(bb)
-  const { result, boundingBox } = layout.layout(root)
-  // layer(root, isHorizontal)
-  // const tree = treeFromNode(root, isHorizontal)
-  // layout(tree)
-  // convertBack(tree, root, isHorizontal)
-  // normalize(root, isHorizontal)
+  if (isHorizontal) {
+    const layout = new HorizontalLayout(bb)
+    const { result, boundingBox } = layout.layout(root)
+  } else {
+    const layout = new Layout(bb)
+    const { result, boundingBox } = layout.layout(root)
+  }
 
   return root
 }
