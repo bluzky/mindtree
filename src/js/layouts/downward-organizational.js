@@ -1,10 +1,10 @@
 import Layout from './layout'
-import nonLayeredTidyTree from '../algorithms/non-layered-tidy-tree'
+import autoLayout from '../algorithms/auto-layout'
 
 class DownwardOrganizational extends Layout {
   doLayout() {
     const root = this.root
-    return nonLayeredTidyTree(root, false)
+    return autoLayout(root, false)
   }
 }
 

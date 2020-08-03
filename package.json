@@ -36,6 +36,7 @@
   "dependencies": {
     "@svgdotjs/svg.js": "^3.0.16",
     "jquery": "^3.5.1",
+    "non-layered-tidy-tree-layout": "^2.0.2",
     "svg.js": "^2.7.1",
     "two.js": "^0.7.0-stable.1"
   },

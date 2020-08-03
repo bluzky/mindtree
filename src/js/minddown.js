@@ -3,10 +3,7 @@ import DownwardOrganizational from './layouts/downward-organizational'
 import UpwardOrganizational from './layouts/upward-organizational'
 import LeftLogical from './layouts/left-logical'
 import Standard from './layouts/standard'
-import {
-  Node,
-  WrappedTree
-} from './structure/index'
+import Node from './structure/node'
 
 
 export default {
@@ -15,6 +12,5 @@ export default {
   UpwardOrganizational,
   LeftLogical,
   Standard,
-  Node,
-  WrappedTree
+  Node
 }
