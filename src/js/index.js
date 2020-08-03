@@ -1,9 +1,7 @@
-import randomTree from './renderer/random-tree'
-import drawLink from './renderer/draw-line'
-import drawNode from './renderer/draw-node'
+import randomTree from './sample/random-tree'
 import MindmapLayouts from "./minddown"
-
-import Two from "two.js"
+import MindMap from "./mindmap"
+import Renderer from './renderer'
 
 // import * as $ from 'jquery'
 
@@ -12,17 +10,8 @@ const formNode = document.getElementById('layout-props')
 const layoutTimeNode = document.getElementById('layout-time')
 const renderTimeNode = document.getElementById('render-time')
 
-const PEM = 18
-const two = new Two({ width: document.body.scrollWidth, height: document.body.scrollHeight }).appendTo(document.getElementById("drawing"));
+const renderer = new Renderer('#drawing', { width: document.body.scrollWidth, height: document.body.scrollHeight })
 
-const HORIZONTAL_LAYOUTS = [
-    'LeftLogical',
-    'RightLogical',
-    'Standard'
-]
-function isHorizontal(type) {
-    return HORIZONTAL_LAYOUTS.indexOf(type) > -1
-}
 
 
 
@@ -30,75 +19,13 @@ function render() {
     const count = formNode.dataSize.value
     const layoutType = formNode.layoutType.value
     const root = randomTree(count)
-
-    Object.assign(root, {
-        isRoot: true
-    })
-
-
     const MindmapLayout = MindmapLayouts[layoutType]
-    const layout = new MindmapLayout(root, {
-        getHeight(d) {
-            if (d.isRoot) {
-                return PEM * 2.4
-            }
-            return PEM * 1.6
-        },
-        getWidth(d) {
-            var text = new Two.Text(d.name, 0, 0)
-            text.size = PEM
-
-            if (d.isRoot) {
-                return text.getBoundingClientRect().width * 2 + PEM * 1.6
-            }
-            return text.getBoundingClientRect().width + PEM * 1.6
-        },
-        getHGap(d) {
-            if (d.isRoot) {
-                return PEM * 2
-            }
-            return Math.round(PEM / 2)
-        },
-        getVGap(d) {
-            if (d.isRoot) {
-                return PEM * 2
-            }
-            return Math.round(PEM / 2)
-        }
-    })
 
     const t0 = window.performance.now()
-
-    const rootNode = layout.doLayout()
-
+    const mindMap = new MindMap(root, MindmapLayout, {})
+    mindMap.build()
     const t1 = window.performance.now()
-
-    const scale = 1
-
-
-    if (two) {
-        two.clear()
-        rootNode.eachNode(node => {
-            node.children.forEach(child => {
-                drawLink(node, child, two, isHorizontal(layoutType), scale)
-            })
-            drawNode(node, two, scale)
-        })
-    }
-
-    // var anchors = [
-    //     new Two.Anchor(30, 30, 0, 0, 60, 0),
-    //     new Two.Anchor(150, 160, -60, 0, 0, 0, Two.Commands.curve)
-    // ]
-    // var path = new Two.Path(anchors, false, true)
-    // path.stroke = "#8e44ad";
-    // path.linewidth = 3;
-    // path.noFill()
-    // two.add(path)
-
-    // debug(anchors[1])
-
-    two.update()
+    renderer.render(mindMap)
     const t2 = window.performance.now()
 
     layoutTimeNode.innerHTML = Math.round(t1 - t0)
@@ -225,17 +152,8 @@ formNode.addEventListener('submit', (e) => {
 
 // }
 
-
-function fitView(two) {
-    let viewWidth = two.width - 30
-    let canvasWidth = two.scene.getBoundingClientRect().width
-    two.scene.scale = Math.floor(viewWidth / canvasWidth * 100) / 100
-    two.update()
-}
-
 function randomGraph() {
     render()
-    fitView(two)
 }
 
 

@@ -2,11 +2,15 @@ import Node from '../structure/node'
 
 
 class Layout {
-  constructor(root, options = {}, extraEdges = []) {
+  constructor(rootNode, options = {}, extraEdges = []) {
     const me = this
-    me.root = new Node(root, options)
+    me.root = rootNode
     me.options = options
     me.extraEdges = extraEdges
+  }
+
+  isHorizontal() {
+    return false
   }
 
   doLayout() {

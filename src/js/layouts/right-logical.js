@@ -1,10 +1,14 @@
 import Layout from './layout'
-import nonLayeredTidyTree from '../algorithms/non-layered-tidy-tree'
+import autoLayout from '../algorithms/auto-layout'
 
 class RightLogical extends Layout {
+  isHorizontal() {
+    return true
+  }
+
   doLayout() {
     const root = this.root
-    return nonLayeredTidyTree(root, true)
+    return autoLayout(root, true)
   }
 }
 

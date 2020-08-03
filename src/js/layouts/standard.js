@@ -1,8 +1,12 @@
 import Layout from './layout'
 import Node from '../structure/node'
-import nonLayeredTidyTree from '../algorithms/non-layered-tidy-tree'
+import autoLayout from '../algorithms/auto-layout'
 
 class Standard extends Layout {
+  isHorizontal() {
+    return true
+  }
+
   doLayout() {
     const me = this
     const root = me.root
@@ -21,8 +25,8 @@ class Standard extends Layout {
       }
     }
     // do layout for left and right trees
-    nonLayeredTidyTree(rightTree, true)
-    nonLayeredTidyTree(leftTree, true)
+    autoLayout(rightTree, true)
+    autoLayout(leftTree, true)
     leftTree.right2left()
     // combine left and right trees
     rightTree.translate(leftTree.x - rightTree.x, leftTree.y - rightTree.y)
