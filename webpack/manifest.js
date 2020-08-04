@@ -56,8 +56,7 @@ const outputFiles = {
 // --------------------
 
 const entries = {
-  index: "js/index.js",
-  minddown: "js/minddown.js"
+  index: "js/index.js"
 };
 
 // -----------------

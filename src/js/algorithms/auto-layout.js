@@ -4,7 +4,7 @@ import HorizontalLayout from './horizontal-layout'
 
 
 function autoLayout(root, isHorizontal) {
-  const bb = new BoundingBox(10, 20)
+  const bb = new BoundingBox(0, 0)
   if (isHorizontal) {
     const layout = new HorizontalLayout(bb)
     layout.layout(root)

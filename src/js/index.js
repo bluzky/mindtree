@@ -1,7 +1,7 @@
 import randomTree from './sample/random-tree'
-import MindmapLayouts from "./minddown"
+import MindmapLayouts from "./layouts"
 import MindMap from "./mindmap"
-import Renderer from './renderer'
+import MindMapViewer from './viewer'
 
 // import * as $ from 'jquery'
 
@@ -10,7 +10,7 @@ const formNode = document.getElementById('layout-props')
 const layoutTimeNode = document.getElementById('layout-time')
 const renderTimeNode = document.getElementById('render-time')
 
-const renderer = new Renderer('#drawing', { width: document.body.scrollWidth, height: document.body.scrollHeight })
+const viewer = new MindMapViewer('#drawing', { width: document.body.scrollWidth, height: document.body.scrollHeight })
 
 
 
@@ -25,7 +25,7 @@ function render() {
     const mindMap = new MindMap(root, MindmapLayout, {})
     mindMap.build()
     const t1 = window.performance.now()
-    renderer.render(mindMap)
+    viewer.render(mindMap)
     const t2 = window.performance.now()
 
     layoutTimeNode.innerHTML = Math.round(t1 - t0)

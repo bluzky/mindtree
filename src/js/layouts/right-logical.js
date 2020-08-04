@@ -12,4 +12,4 @@ class RightLogical extends Layout {
   }
 }
 
-export { RightLogical }
+export default RightLogical

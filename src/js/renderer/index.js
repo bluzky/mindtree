@@ -1,17 +1,13 @@
-import Two from "two.js"
-import drawLink from './renderer/draw-line'
-import drawNode from './renderer/draw-node'
+import drawLink from './draw-link.js'
+import drawNode from './draw-node.js'
 
 /*
 { width: 500, height: 500 }
 */
 class Renderer {
-    constructor(selector, options) {
-        let el = document.querySelector(selector)
-        if (el == null) {
-            throw ("Invalid selector")
-        }
-        this.two = new Two(options).appendTo(el)
+    constructor(twoCtx, options) {
+        this.two = twoCtx
+        this.options = options
     }
 
     render(mindMap) {

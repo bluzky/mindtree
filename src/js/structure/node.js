@@ -32,6 +32,8 @@ class Node {
     /* end */
 
     this.depth = parent == null ? 0 : parent.depth + 1
+    console.log(this.content)
+    console.log(this.depth)
     this.parent = parent
     this.children = []
 
@@ -79,6 +81,8 @@ class Node {
     return text.getBoundingClientRect().width + this.styles.font_size * 1.6
   }
 
+
+
   eachNode(callback) {
 
     let nodes = [this]
@@ -86,6 +90,46 @@ class Node {
     while (current = nodes.pop()) {
       callback(current)
       nodes = nodes.concat(current.children)
+    }
+  }
+
+  getBox() {
+    return {
+      width: Math.floor(this.width - this.hgap * 2),
+      height: Math.floor(this.height - this.vgap * 2),
+      x: Math.floor(this.x + this.hgap),
+      y: Math.floor(this.y - this.vgap)
+    }
+  }
+
+  getCenter() {
+    return {
+      x: this.x + this.width / 2,
+      y: this.y + this.height / 2
+    }
+  }
+
+  getLinkingPoints() {
+    let { x, y } = this.getCenter()
+    let { width, height } = this.getBox()
+
+    return {
+      top: {
+        x: x,
+        y: Math.round(y - height / 2),
+      },
+      right: {
+        x: Math.round(x + width / 2),
+        y: y
+      },
+      bottom: {
+        x: x,
+        y: Math.round(y + height / 2),
+      },
+      left: {
+        x: Math.round(x - width / 2),
+        y: y
+      }
     }
   }
 
