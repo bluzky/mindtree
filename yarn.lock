@@ -3202,6 +3202,11 @@ https-browserify@^1.0.0:
   resolved "https://registry.yarnpkg.com/https-browserify/-/https-browserify-1.0.0.tgz#ec06c10e0a34c0f2faf199f7fd7fc78fffd03c73"
   integrity sha1-7AbBDgo0wPL68Zn3/X/Hj//QPHM=
 
+hyperactiv@^0.8.2:
+  version "0.8.2"
+  resolved "https://registry.yarnpkg.com/hyperactiv/-/hyperactiv-0.8.2.tgz#8aaf361815359f4950a813723adc03c136b10ad6"
+  integrity sha512-WviGi/PnIQQqGl/fRLtkWlQbhgYnDowpPSOfD/s3W5JWVU4aKnT/xemZD7syAMi1NsdqlYpz3e4ETIpldH1hkQ==
+
 iconv-lite@0.4.24:
   version "0.4.24"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.24.tgz#2022b4b25fbddc21d2f524974a474aafe733908b"

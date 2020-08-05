@@ -32,8 +32,6 @@ class Node {
     /* end */
 
     this.depth = parent == null ? 0 : parent.depth + 1
-    console.log(this.content)
-    console.log(this.depth)
     this.parent = parent
     this.children = []
 
@@ -76,7 +74,7 @@ class Node {
     text.size = this.styles.font_size
 
     if (this.isRoot()) {
-      return text.getBoundingClientRect().width * 2 + this.styles.font_size * 1.6
+      return text.getBoundingClientRect().width * 1.5 + this.styles.font_size * 1.6
     }
     return text.getBoundingClientRect().width + this.styles.font_size * 1.6
   }

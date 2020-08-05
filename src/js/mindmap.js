@@ -20,6 +20,10 @@ class MindMap {
     isHorizontalLayout() {
         return this.layout.isHorizontal()
     }
+
+    getBoundingBox() {
+        return this.rootNode.getBoundingBox()
+    }
 }
 
 export default MindMap

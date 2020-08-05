@@ -10,7 +10,7 @@ const formNode = document.getElementById('layout-props')
 const layoutTimeNode = document.getElementById('layout-time')
 const renderTimeNode = document.getElementById('render-time')
 
-const viewer = new MindMapViewer('#drawing', { width: document.body.scrollWidth, height: document.body.scrollHeight })
+const viewer = new MindMapViewer('#drawing', {})
 
 
 
@@ -26,6 +26,7 @@ function render() {
     mindMap.build()
     const t1 = window.performance.now()
     viewer.render(mindMap)
+    window.viewer = viewer
     const t2 = window.performance.now()
 
     layoutTimeNode.innerHTML = Math.round(t1 - t0)
