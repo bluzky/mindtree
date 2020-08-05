@@ -45,6 +45,7 @@ class MindmapViewer {
     render(mindMap) {
         this.mindMap = mindMap
         this.renderer.render(mindMap)
+        this.fitView()
     }
 
     zoomIn(percent, x = 0, y = 0) {
@@ -56,13 +57,28 @@ class MindmapViewer {
     }
 
     zoomBy(percent, x = 0, y = 0) {
+        let dx = x * (this.scale + percent) - x * this.scale
+        let dy = y * (this.scale + percent) - y * this.scale
         this.zoom += percent
         // this.setScale(this.zoom / 100)
-        this.zui.zoomBy(percent, x, y)
+        // this.zui.zoomBy(percent, x, y)
+        this.two.scene.scale = this.scale = 1 + this.zoom
+
+        this.translateBy(-dx, -dy)
         this.two.update()
     }
 
-    setCenter(x, y) {
+    centerView() {
+        let clientRect = this.mindMap.getBoundingBox()
+        let centerX = (clientRect.left + clientRect.width / 2) * this.scale
+        let centerY = (clientRect.top + clientRect.height / 2) * this.scale
+        let clientCenterX = this.width / 2
+        let clientCenterY = this.height / 2
+        let dx = clientCenterX - centerX
+        let dy = clientCenterY - centerY
+
+        this.two.scene.translation.set(0, 0)
+        this.two.scene.translation.set(dx, dy)
 
     }
 
@@ -70,13 +86,17 @@ class MindmapViewer {
         let clientRect = this.mindMap.getBoundingBox()
         let scaleX = this.width / clientRect.width
         let scaleY = this.height / clientRect.height
-        let scale = Math.min(scaleX, scaleY)
-        this.zui.reset()
-        this.zoomBy(scale - 1, 0, 0)
+        this.scale = Math.min(scaleX, scaleY)
+        this.two.scene.scale = this.scale
+        this.zoom = this.scale - 1
+        this.centerView()
+        this.two.update()
+
     }
 
     translateBy(dx, dy) {
-        this.zui.translateSurface(dx, dy)
+        // this.zui.translateSurface(dx, dy)
+        this.two.scene.translation.add(dx, dy)
         this.two.update()
     }
 
