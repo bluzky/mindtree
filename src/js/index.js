@@ -3,8 +3,31 @@ import MindmapLayouts from "./layouts"
 import MindMap from "./mindmap"
 import MindMapViewer from './viewer'
 import sample from './sample'
+import { TextParser } from './parser'
 
 // import * as $ from 'jquery'
+
+let text = `
+Root
+
+    - branch 1
+        +branch 1.1
+
+    - branch 2
+        branch 2.1
+        * branch 2.2
+            branch 2.2.1
+
+    -Branch 3
+        - alo
+        - ola
+        - ollala
+
+    -Branch 4
+        - Branch 4.1
+            - Branch 4.1.1
+        - Branch 4.2
+        - Branch 4.3`
 
 
 const formNode = document.getElementById('layout-props')
@@ -19,11 +42,12 @@ const viewer = new MindMapViewer('#drawing', {})
 function render() {
     const count = formNode.dataSize.value
     const layoutType = formNode.layoutType.value
-    const root = randomTree(count)
+    // const root = randomTree(count)
     const MindmapLayout = MindmapLayouts[layoutType]
+    const test = TextParser.parse(text)
 
     const t0 = window.performance.now()
-    const mindMap = new MindMap(sample.root, MindmapLayout, {})
+    const mindMap = new MindMap(test.root, MindmapLayout, {})
     mindMap.build()
     const t1 = window.performance.now()
     viewer.render(mindMap)
