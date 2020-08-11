@@ -2,6 +2,7 @@ import randomTree from './sample/random-tree'
 import MindmapLayouts from "./layouts"
 import MindMap from "./mindmap"
 import MindMapViewer from './viewer'
+import sample from './sample'
 
 // import * as $ from 'jquery'
 
@@ -22,7 +23,7 @@ function render() {
     const MindmapLayout = MindmapLayouts[layoutType]
 
     const t0 = window.performance.now()
-    const mindMap = new MindMap(root, MindmapLayout, {})
+    const mindMap = new MindMap(sample.root, MindmapLayout, {})
     mindMap.build()
     const t1 = window.performance.now()
     viewer.render(mindMap)

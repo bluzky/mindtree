@@ -18,7 +18,7 @@ class Node {
 
     this.id = data.id
     this.data = data
-    this.content = data.name
+    this.content = data.name || data.content
     this.vgap = this.hgap = 0
     this.x = this.y = 0
 
@@ -63,8 +63,24 @@ class Node {
     }
   }
 
-  getStyle() {
-    return this.style || this.getClassStyle()
+  getStyle(attribute) {
+    let style = this.getStyleObject()
+    let value = style.getAttribute(attribute)
+
+    if ((value == "inherit" || value == null) && this.parent != null) {
+      return this.parent.getStyle(attribute)
+    } else {
+      return value
+    }
+  }
+
+  getStyleObject() {
+    if (this.style) {
+      return this.style.mergeMissingAttribute(this.getClassStyle())
+    } else {
+      return this.getClassStyle()
+    }
+
   }
 
   getClassStyle() {
@@ -88,19 +104,19 @@ class Node {
 
   getHeight() {
     if (this.isRoot()) {
-      return this.getStyle().getAttribute("font-size") * 2.4
+      return this.getStyle("font-size") * 2.4
     }
-    return this.getStyle().getAttribute("font-size") * 1.6
+    return this.getStyle("font-size") * 1.6
   }
 
   getWidth() {
     var text = new Two.Text(this.content, 0, 0)
-    text.size = this.getStyle().getAttribute("font-size")
+    text.size = this.getStyle("font-size")
 
     if (this.isRoot()) {
-      return text.getBoundingClientRect().width * 1.5 + this.getStyle().getAttribute("font-size") * 1.6
+      return text.getBoundingClientRect().width * 1.5 + this.getStyle("font-size") * 1.6
     }
-    return text.getBoundingClientRect().width + this.getStyle().getAttribute("font-size") * 1.6
+    return text.getBoundingClientRect().width + this.getStyle("font-size") * 1.6
   }
 
 
@@ -136,7 +152,7 @@ class Node {
     let { x, y } = this.getCenter()
     let { width, height } = this.getBox()
 
-    return {
+    let data = {
       top: {
         x: x,
         y: Math.round(y - height / 2),
@@ -154,6 +170,22 @@ class Node {
         y: y
       }
     }
+
+    if (this.getStyle("shape") == "line") {
+      let tmp = {
+        right: {
+          x: Math.round(x + width / 2),
+          y: Math.round(y + height / 2)
+        },
+        left: {
+          x: Math.round(x - width / 2),
+          y: Math.round(y + height / 2)
+        }
+      }
+      data = Object.assign({}, data, tmp)
+    }
+
+    return data
   }
 
   getBoundingBox() {

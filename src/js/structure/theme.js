@@ -5,22 +5,26 @@ const DEFAULT_THEME = {
     "classes": {
         "root": {
             "shape": "rounded_rectangle",
-            "background-color": "red",
-            "font-size": "10",
+            "background-color": "#F79F1F",
+            "font-size": 24,
             "font-family": "Arial",
-            "color": "#333"
+            "color": "#333",
+            "line-color": "#F79F1F",
+            "line-width": 4
         },
         "main-branch": {
             "shape": "rounded_rectangle",
-            "background-color": "red",
-            "font-size": "10",
+            "background-color": "#A3CB38",
+            "font-size": 18,
             "font-family": "Arial",
-            "color": "#333"
+            "color": "#333",
+            "line-color": "#A3CB38",
+            "line-width": 2
         },
         "sub-branch": {
-            "shape": "none",
-            "background-color": "red",
-            "font-size": "10",
+            "shape": "line",
+            "background-color": "#fff",
+            "font-size": 14,
             "font-family": "Arial",
             "color": "#333"
         }
@@ -32,8 +36,9 @@ class Theme {
         let theme = Object.assign({}, DEFAULT_THEME, themeObject || {})
         this.style = new Style(theme)
         this.classes = {}
+
         for (const className in theme["classes"]) {
-            this.classes[className] = new Style(theme["className"])
+            this.classes[className] = new Style(theme.classes[className])
         }
     }
 

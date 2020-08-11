@@ -1,29 +1,43 @@
 import randomColor from '../sample/random-color'
 
-const PEM = 18
-
 function drawNode(node, ctx) {
-  drawBox(node, ctx)
+  drawShape(node, ctx)
   drawText(node, ctx)
 }
 
-function drawBox(node, ctx) {
+function drawShape(node, ctx) {
+  switch (node.getStyle("shape")) {
+    case "line":
+      drawLine(node, ctx)
+      break
+    default:
+      drawRoundedRect(node, ctx)
 
-  const color = randomColor()
+  }
+}
+
+function drawRoundedRect(node, ctx) {
   let { width, height } = node.getBox()
   let { x, y } = node.getCenter()
-
   let rect = ctx.makeRoundedRectangle(x, y, width, height, 3)
-  rect.stroke = color
-  rect.fill = color
+  rect.stroke = node.getStyle("background-color")
+  rect.fill = node.getStyle("background-color")
+}
+
+function drawLine(node, ctx) {
+  let linkingPoints = node.getLinkingPoints()
+  let line = ctx.makeLine(linkingPoints.left.x, linkingPoints.left.y, linkingPoints.right.x, linkingPoints.right.y)
+  let parent = node.parent || node
+  line.stroke = parent.getStyle("line-color")
+  line.linewidth = parent.getStyle("line-width")
 }
 
 function drawText(node, ctx) {
   let { x, y } = node.getCenter()
 
   var text = new Two.Text(node.content, x, y);
-  text.color = '#666'
-  text.size = PEM
+  text.color = node.getStyle("color")
+  text.size = node.getStyle("font-size")
   ctx.add(text)
 }
 

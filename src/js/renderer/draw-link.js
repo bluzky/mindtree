@@ -31,7 +31,7 @@ function drawVerticalLink(a, b, two) {
     endPoint = endNode.getCenter()
   }
 
-  drawSLine(endPoint, startPoint, false, two)
+  drawSLine(endPoint, startPoint, false, two, a)
 }
 
 function drawHorizontalLink(a, b, two) {
@@ -55,10 +55,10 @@ function drawHorizontalLink(a, b, two) {
     endPoint = endNode.getCenter()
   }
 
-  drawSLine(endPoint, startPoint, true, two)
+  drawSLine(endPoint, startPoint, true, two, a)
 }
 
-function drawSLine(startPoint, endPoint, isHorizontal, two) {
+function drawSLine(startPoint, endPoint, isHorizontal, two, style) {
   let anchors = []
   let startAnchor, endAnchor
 
@@ -74,8 +74,8 @@ function drawSLine(startPoint, endPoint, isHorizontal, two) {
   anchors.push(new Two.Anchor(endPoint.x, endPoint.y, endAnchor.x, endAnchor.y, 0, 0))
 
   let path = new Two.Path(anchors, false, true)
-  path.stroke = lineColor
-  path.linewidth = 2
+  path.stroke = style.getStyle("line-color")
+  path.linewidth = style.getStyle("line-width")
   path.noFill()
   two.add(path)
 }

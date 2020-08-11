@@ -35,7 +35,7 @@ export default {
         "structure": "inherit",
         "class": "root",
         "level": 0,
-        "childrend": [
+        "children": [
             {
                 "content": "vegetable",
                 "structure": "inherit",
@@ -48,7 +48,7 @@ export default {
                     "font-family": "Arial",
                     "color": "#fff"
                 },
-                "childrend": [
+                "children": [
                     {
                         "content": "Potato",
                         "level": 2
@@ -63,7 +63,25 @@ export default {
                     },
                     {
                         "content": "Mushroom",
-                        "level": 2
+                        "level": 2,
+                        "children": [
+                            {
+                                "content": "Potato",
+                                "level": 2
+                            },
+                            {
+                                "content": "Tomato",
+                                "level": 2
+                            },
+                            {
+                                "content": "Green bean",
+                                "level": 2
+                            },
+                            {
+                                "content": "Mushroom",
+                                "level": 2
+                            }
+                        ]
                     }
                 ]
             },
@@ -72,7 +90,7 @@ export default {
                 "structure": "inherit",
                 "class": "branch",
                 "level": 1,
-                "childrend": [
+                "children": [
                     {
                         "content": "Mango",
                         "level": 2
@@ -83,7 +101,25 @@ export default {
                     },
                     {
                         "content": "Banana",
-                        "level": 2
+                        "level": 2,
+                        "children": [
+                            {
+                                "content": "Potato",
+                                "level": 2
+                            },
+                            {
+                                "content": "Tomato",
+                                "level": 2
+                            },
+                            {
+                                "content": "Green bean",
+                                "level": 2
+                            },
+                            {
+                                "content": "Mushroom",
+                                "level": 2
+                            }
+                        ]
                     }
                 ]
             },
@@ -92,10 +128,28 @@ export default {
                 "structure": "inherit",
                 "class": "branch",
                 "level": 1,
-                "childrend": [
+                "children": [
                     {
                         "content": "Red bean",
-                        "level": 2
+                        "level": 2,
+                        "children": [
+                            {
+                                "content": "Potato",
+                                "level": 2
+                            },
+                            {
+                                "content": "Tomato",
+                                "level": 2
+                            },
+                            {
+                                "content": "Green bean",
+                                "level": 2
+                            },
+                            {
+                                "content": "Mushroom",
+                                "level": 2
+                            }
+                        ]
                     },
                     {
                         "content": "Nutella",
@@ -107,7 +161,25 @@ export default {
                     },
                     {
                         "content": "dog brain",
-                        "level": 2
+                        "level": 2,
+                        "children": [
+                            {
+                                "content": "Potato",
+                                "level": 2
+                            },
+                            {
+                                "content": "Tomato",
+                                "level": 2
+                            },
+                            {
+                                "content": "Green bean",
+                                "level": 2
+                            },
+                            {
+                                "content": "Mushroom",
+                                "level": 2
+                            }
+                        ]
                     }
                 ]
             }
