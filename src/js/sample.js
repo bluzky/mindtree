@@ -4,7 +4,7 @@ export default {
     "email": "bluesky.1289@gmail.com",
     "theme": "classic",
     "structure": "center",
-    "style": {
+    "theme": {
         "background": "teal",
         "classes": {
             "root": {
@@ -28,7 +28,7 @@ export default {
                 "font-family": "Arial",
                 "color": "#333"
             }
-        }    
+        }
     },
     "root": {
         "content": "Foods",
@@ -110,7 +110,7 @@ export default {
                         "level": 2
                     }
                 ]
-            }     
+            }
         ]
     }
 }

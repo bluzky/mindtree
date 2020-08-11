@@ -1,12 +1,9 @@
 import Two from 'two.js'
+import Style from './style'
 
 const PEM = 18
-const DEFAULT_HEIGHT = PEM * 2
 
 const DEFAULT_OPTIONS = {
-  styles: {
-    font_size: PEM
-  },
   horizontal_gap: PEM,
   vertical_gap: PEM
 }
@@ -17,6 +14,7 @@ class Node {
     if (data instanceof Node) return data
 
     options = Object.assign({}, DEFAULT_OPTIONS, options)
+    this.options = options
 
     this.id = data.id
     this.data = data
@@ -25,15 +23,20 @@ class Node {
     this.x = this.y = 0
 
     /* Next milestone */
-    this.styles = options.styles
+    this.style = data["style"] && new Style(data["style"])
     this.shape = null
     this.type = null // box | line
-    this.className = ""
     /* end */
 
     this.depth = parent == null ? 0 : parent.depth + 1
     this.parent = parent
     this.children = []
+    this.className = ""
+    this.decideClassName()
+
+    this.width = this.getWidth()
+    this.height = this.getHeight()
+    this.addGap(options.horizontal_gap, options.vertical_gap)
 
     if (!isolated && !data.isCollapsed) {
       if (!this.data.isCollapsed) {
@@ -45,10 +48,31 @@ class Node {
 
       }
     }
+  }
 
-    this.width = this.getWidth()
-    this.height = this.getHeight()
-    this.addGap(options.horizontal_gap, options.vertical_gap)
+  decideClassName() {
+    switch (this.depth) {
+      case 0:
+        this.className = "root"
+        break
+      case 1:
+        this.className = "main-branch"
+        break
+      default:
+        this.className = "sub-branch"
+    }
+  }
+
+  getStyle() {
+    return this.style || this.getClassStyle()
+  }
+
+  getClassStyle() {
+    return this.options.theme.getClass(this.className)
+  }
+
+  clearStyle() {
+    this.style = null
   }
 
   isRoot() {
@@ -64,20 +88,21 @@ class Node {
 
   getHeight() {
     if (this.isRoot()) {
-      return this.styles.font_size * 2.4
+      return this.getStyle().getAttribute("font-size") * 2.4
     }
-    return this.styles.font_size * 1.6
+    return this.getStyle().getAttribute("font-size") * 1.6
   }
 
   getWidth() {
     var text = new Two.Text(this.content, 0, 0)
-    text.size = this.styles.font_size
+    text.size = this.getStyle().getAttribute("font-size")
 
     if (this.isRoot()) {
-      return text.getBoundingClientRect().width * 1.5 + this.styles.font_size * 1.6
+      return text.getBoundingClientRect().width * 1.5 + this.getStyle().getAttribute("font-size") * 1.6
     }
-    return text.getBoundingClientRect().width + this.styles.font_size * 1.6
+    return text.getBoundingClientRect().width + this.getStyle().getAttribute("font-size") * 1.6
   }
+
 
 
 
