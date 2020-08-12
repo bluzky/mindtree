@@ -1,5 +1,6 @@
 import drawLink from './draw-link.js'
 import drawNode from './draw-node.js'
+import Two from 'two.js'
 
 /*
 { width: 500, height: 500 }

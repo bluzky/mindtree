@@ -1,29 +1,29 @@
 import Style from "./style"
 
 const DEFAULT_THEME = {
-    "background": "teal",
+    "background-color": "#fff",
     "classes": {
         "root": {
             "shape": "rounded_rectangle",
-            "background-color": "#F79F1F",
-            "font-size": 24,
+            "background-color": "#F6212D",
+            "font-size": 28,
             "font-family": "Arial",
-            "color": "#333",
-            "line-color": "#F79F1F",
+            "color": "#fff",
+            "line-color": "#333333",
             "line-width": 4
         },
         "main-branch": {
             "shape": "rounded_rectangle",
-            "background-color": "#A3CB38",
-            "font-size": 18,
+            "background-color": "#0288D1",
+            "font-size": 20,
             "font-family": "Arial",
             "color": "#333",
-            "line-color": "#A3CB38",
+            "line-color": "inherit",
             "line-width": 2
         },
         "sub-branch": {
-            "shape": "line",
-            "background-color": "#fff",
+            "shape": "rounded_rectangle",
+            "background-color": "none",
             "font-size": 14,
             "font-family": "Arial",
             "color": "#333"
