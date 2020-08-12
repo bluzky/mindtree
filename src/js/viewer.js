@@ -1,6 +1,5 @@
 import Two from "two.js"
 import Renderer from "./renderer"
-import "two.js/extras/zui"
 
 /*
 { width: 500, height: 500 }
@@ -12,13 +11,11 @@ class MindmapViewer {
             throw ("Invalid selector")
         }
 
+        this.container = el
         this.width = el.offsetWidth
         this.height = el.offsetHeight
         this.two = new Two({ width: this.width, height: this.height }).appendTo(el)
         this.renderer = new Renderer(this.two, options)
-
-        this.zui = new Two.ZUI(this.two.scene, el);
-        this.zui.addLimits(0.06, 8);
 
 
         this.scale = 1
@@ -44,6 +41,7 @@ class MindmapViewer {
 
     render(mindMap) {
         this.mindMap = mindMap
+        this.container.style.backgroundColor = mindMap.theme.style.getAttribute("background-color")
         this.renderer.render(mindMap)
         this.fitView()
     }
@@ -60,8 +58,6 @@ class MindmapViewer {
         let dx = x * (this.scale + percent) - x * this.scale
         let dy = y * (this.scale + percent) - y * this.scale
         this.zoom += percent
-        // this.setScale(this.zoom / 100)
-        // this.zui.zoomBy(percent, x, y)
         this.two.scene.scale = this.scale = 1 + this.zoom
 
         this.translateBy(-dx, -dy)
@@ -95,7 +91,6 @@ class MindmapViewer {
     }
 
     translateBy(dx, dy) {
-        // this.zui.translateSurface(dx, dy)
         this.two.scene.translation.add(dx, dy)
         this.two.update()
     }
@@ -116,8 +111,8 @@ class MindmapViewer {
         var stage = this.two.renderer.domElement;
 
         var onDrag = (e) => {
-            let dx = e.movementX * this.zui.scale
-            let dy = e.movementY * this.zui.scale
+            let dx = e.movementX
+            let dy = e.movementY
             this.translateBy(dx, dy)
         }
 
@@ -132,6 +127,143 @@ class MindmapViewer {
             stage.addEventListener("mousemove", onDrag)
             stage.addEventListener("mouseup", onDragEnd)
         })
+    }
+
+    getSvgData() {
+        let svgText = this.container.innerHTML
+        if (!svgText.match(/xmlns=\"/mi)) {
+            svgText = svgText.replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" ');
+        }
+
+        return svgText
+
+    }
+
+    downloadDataAsFile(data, filename) {
+        var element = document.createElement('a');
+        element.setAttribute('href', data)
+        element.setAttribute('download', filename);
+        element.style.display = 'none';
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+    }
+
+    exportSvg(filename = "mindmap.svg") {
+        this.downloadDataAsFile('data:image/svg+xml;utf8,' + encodeURIComponent(this.getSvgData()), filename)
+    }
+
+    exportPng(filename = "mindmap.png") {
+        let bb = this.mindMap.getBoundingBox()
+
+        // backup current value
+        let scale = this.two.scene.scale
+        let translation = this.two.scene.translation.clone()
+
+        // set svg full size
+        this.two.scene.scale = 1
+        this.two.scene.translation.set(0, 0)
+        this.two.width = bb.width
+        this.two.height = bb.height
+
+        // get svg data
+        this.two.update()
+        let svgText = this.getSvgData()
+
+        // restore original size
+        this.two.width = this.width
+        this.two.height = this.height
+        this.two.scene.scale = scale
+        this.two.scene.translation.copy(translation)
+        this.two.update()
+
+        let fill = this.mindMap.theme.style.getAttribute("background-color")
+        this.svgToPng(svgText, 0, fill).then((data) => this.downloadDataAsFile(data, filename))
+    }
+
+    /**
+    * This function is shamelessly copy from https://sites.google.com/a/mcpher.com/share/Home/excelquirks/gassnips/svgtopng
+    * converts an svg string to base64 png using the domUrl
+    * @param {string} svgText the svgtext
+    * @param {number} [margin=0] the width of the border - the image size will be height+margin by width+margin
+    * @param {string} [fill] optionally backgrund canvas fill
+    * @return {Promise} a promise to the bas64 png image
+    */
+    svgToPng(svgText, margin = 0, fill = null) {
+        var self = this
+        // convert an svg text to png using the browser
+        return new Promise(function (resolve, reject) {
+            try {
+                // can use the domUrl function from the browser
+                var domUrl = window.URL || window.webkitURL || window;
+                if (!domUrl) {
+                    throw new Error("(browser doesnt support this)")
+                }
+
+                // get original size
+                var match = svgText.match(/height=\"(\d+)/m);
+                var height = match && match[1] ? parseInt(match[1], 10) : 200;
+                var match = svgText.match(/width=\"(\d+)/m);
+                var width = match && match[1] ? parseInt(match[1], 10) : 200;
+
+
+                // it needs a namespace
+                if (!svgText.match(/xmlns=\"/mi)) {
+                    svgText = svgText.replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" ');
+                }
+
+
+                // create a canvas element to pass through
+                var canvas = document.createElement("canvas");
+                canvas.width = width + margin * 2;
+                canvas.height = height + margin * 2;
+                var ctx = canvas.getContext("2d");
+
+
+                // make a blob from the svg
+                var svg = new Blob([svgText], {
+                    type: "image/svg+xml;charset=utf-8"
+                });
+
+                // create a dom object for that image
+                var url = domUrl.createObjectURL(svg);
+
+                // create a new image to hold it the converted type
+                var img = new Image;
+
+                // when the image is loaded we can get it as base64 url
+                img.onload = function () {
+                    // draw it to the canvas
+                    ctx.drawImage(this, margin, margin);
+
+                    // if it needs some styling, we need a new canvas
+                    console.log(fill)
+                    if (fill) {
+                        var styled = document.createElement("canvas");
+                        styled.width = canvas.width;
+                        styled.height = canvas.height;
+                        var styledCtx = styled.getContext("2d");
+                        styledCtx.save();
+                        styledCtx.fillStyle = fill;
+                        styledCtx.fillRect(0, 0, canvas.width, canvas.height);
+                        styledCtx.strokeRect(0, 0, canvas.width, canvas.height);
+                        styledCtx.restore();
+                        styledCtx.drawImage(canvas, 0, 0);
+                        canvas = styled;
+                    }
+                    // we don't need the original any more
+                    domUrl.revokeObjectURL(url);
+                    // now we can resolve the promise, passing the base64 url
+                    resolve(canvas.toDataURL());
+                };
+
+                // load the image
+                img.src = url;
+
+            } catch (err) {
+                reject('failed to convert svg to png ' + err);
+            }
+        });
     }
 }
 export default MindmapViewer    
