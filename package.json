@@ -34,11 +34,7 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
-    "@svgdotjs/svg.js": "^3.0.16",
-    "hyperactiv": "^0.8.2",
-    "jquery": "^3.5.1",
     "non-layered-tidy-tree-layout": "^2.0.2",
-    "svg.js": "^2.7.1",
     "two.js": "^0.7.0-stable.1"
   },
   "prettier": {
