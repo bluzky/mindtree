@@ -30,7 +30,7 @@ const NODE_ENV = process.env.NODE_ENV || "development",
 // @Utils
 // ------
 
-const dir = src => path.join(__dirname, src);
+const dir = (src) => path.join(__dirname, src);
 
 // ----------
 // @App Paths
@@ -39,7 +39,7 @@ const dir = src => path.join(__dirname, src);
 const paths = {
   src: dir("../src"),
   build: dir("../dist/"),
-  public_path: "/dist/"
+  public_path: "/dist/",
 };
 
 // -------------------
@@ -48,7 +48,6 @@ const paths = {
 
 const outputFiles = {
   bundle: "js/[name].js",
-  css: "css/[name].css"
 };
 
 // --------------------
@@ -56,9 +55,8 @@ const outputFiles = {
 // --------------------
 
 const entries = {
-  index: "js/index.js"
+  mindtree: "js/index.js",
 };
-
 // -----------------
 // @Exporting Module
 // -----------------
@@ -69,5 +67,5 @@ module.exports = {
   entries,
   NODE_ENV,
   IS_DEVELOPMENT,
-  IS_PRODUCTION
+  IS_PRODUCTION,
 };

@@ -16,7 +16,7 @@
 const path = require("path"),
   manifest = require("./manifest"),
   rules = require("./rules"),
-  plugins = require("./plugins"),
+  plugins = [],
   UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
 // ------------------
@@ -36,8 +36,8 @@ const resolve = {
   extensions: [".webpack-loader.js", ".web-loader.js", ".loader.js", ".js"],
   modules: [
     path.join(__dirname, "../node_modules"),
-    path.join(manifest.paths.src, "")
-  ]
+    path.join(manifest.paths.src, ""),
+  ],
 };
 
 // ---------------
@@ -45,21 +45,6 @@ const resolve = {
 // -------------
 var optimization = {
   nodeEnv: "production",
-  splitChunks: {
-    chunks: "all",
-    cacheGroups: {
-      commons: {
-        chunks: "all",
-        name: "commons",
-        priority: 1
-      },
-      // vendors: {
-      //           test: /[\\/]node_modules[\\/]/,
-      //           priority: -10
-      //         },
-      default: false
-    }
-  }
 };
 
 if (manifest.IS_PRODUCTION) {
@@ -77,14 +62,14 @@ if (manifest.IS_PRODUCTION) {
           join_vars: true,
           sequences: true,
           unused: true,
-          warnings: false
+          warnings: false,
         },
 
         output: {
-          comments: false
-        }
-      }
-    })
+          comments: false,
+        },
+      },
+    }),
   ];
 }
 
@@ -95,7 +80,7 @@ if (manifest.IS_PRODUCTION) {
 var devServer = {
   contentBase: path.join(__dirname, "../"),
   compress: true,
-  port: 8000
+  port: 8000,
 };
 
 module.exports = {
@@ -103,18 +88,21 @@ module.exports = {
   context: manifest.paths.src,
   entry: entries,
   output: {
+    library: "mindtree",
+    libraryTarget: "umd",
+    globalObject: "this",
     path: manifest.paths.build,
     publicPath: manifest.paths.public_path,
-    filename: manifest.outputFiles.bundle
+    filename: manifest.outputFiles.bundle,
   },
   module: {
-    rules
+    rules,
   },
   resolve,
   externals: {
-    window: "window"
+    window: "window",
   },
   plugins,
   optimization,
-  devServer
+  devServer,
 };
