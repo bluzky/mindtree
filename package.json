@@ -1,8 +1,8 @@
 {
-  "name": "webpack-start",
+  "name": "mindtree",
   "version": "1.0.0",
-  "private": true,
-  "description": "Project description",
+  "private": false,
+  "description": "Mindmap viewer for web",
   "scripts": {
     "watch": "webpack --watch --progress --mode development",
     "start": "webpack-dev-server",

@@ -44,6 +44,7 @@ function updateMindmap(text) {
 }
 
 updateMindmap(text);
+viewer.fitView();
 editor.update({ value: text });
 editor.textarea.focus();
 
