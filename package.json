@@ -1,8 +1,8 @@
 {
-  "name": "mindtree",
+  "name": "webpack-start",
   "version": "1.0.0",
-  "private": false,
-  "description": "Mindmap viewer for web",
+  "private": true,
+  "description": "Project description",
   "scripts": {
     "watch": "webpack --watch --progress --mode development",
     "start": "webpack-dev-server",
@@ -12,16 +12,15 @@
   },
   "devDependencies": {
     "@babel/core": "^7.11.0",
-    "@babel/plugin-syntax-class-properties": "^7.10.4",
     "@babel/preset-env": "^7.11.0",
     "babel-loader": "^8.1.0",
     "copy-webpack-plugin": "^6.0.0",
     "cross-env": "^7.0.0",
     "css-loader": "^4.1.1",
+    "cssnano": "^4.1.10",
     "file-loader": "^6.0.0",
     "mini-css-extract-plugin": "^0.9.0",
     "postcss-loader": "^3.0.0",
-    "random-graph": "^0.0.3",
     "sass": "^1.26.10",
     "sass-loader": "^9.0.2",
     "shx": "^0.3.2",
@@ -34,8 +33,10 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
-    "non-layered-tidy-tree-layout": "^2.0.2",
-    "two.js": "^0.7.0-stable.1"
+    "bootstrap": "^4.5.0",
+    "jquery": "^3.5.0",
+    "mindtree": "file:../mindtree",
+    "popper.js": "^1.16.1"
   },
   "prettier": {
     "overrides": [
@@ -45,12 +46,6 @@
           "semi": "true"
         }
       }
-    ]
-  },
-  "babel": {
-    "plugins": [
-      "@babel/syntax-class-properties",
-      "@babel/plugin-proposal-class-properties"
     ]
   }
 }
