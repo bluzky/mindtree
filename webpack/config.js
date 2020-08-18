@@ -17,7 +17,7 @@ const path = require("path"),
   manifest = require("./manifest"),
   rules = require("./rules"),
   plugins = [],
-  UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+  TerserPlugin = require("terser-webpack-plugin");
 
 // ------------------
 // @Entry Point Setup
@@ -49,26 +49,8 @@ var optimization = {
 
 if (manifest.IS_PRODUCTION) {
   optimization.minimizer = [
-    new UglifyJsPlugin({
+    new TerserPlugin({
       parallel: true,
-      uglifyOptions: {
-        compress: {
-          comparisons: true,
-          conditionals: true,
-          dead_code: true,
-          drop_debugger: true,
-          evaluate: true,
-          if_return: true,
-          join_vars: true,
-          sequences: true,
-          unused: true,
-          warnings: false,
-        },
-
-        output: {
-          comments: false,
-        },
-      },
     }),
   ];
 }
