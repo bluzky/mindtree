@@ -7,17 +7,19 @@
 - [Basic usage]()
 - Document - comming soon
 
-
 ## Installation
+
 - Install from npm
 
-`yarn add mintree`
+`yarn add @bluzky/mindtree`
 
 - Add to your project assets
-Just copy `mindtree.js` to your assets directory
+  Just copy `mindtree.js` to your assets directory
 
 ## Basic usage
+
 You have to follow these steps to render a mindmap:
+
 1. Build mind map data represented as a hierarchy tree
 2. Which layout you want to render as
 3. Build a `Mindmap` object from `data` and `layout`
@@ -26,10 +28,10 @@ You have to follow these steps to render a mindmap:
 ### 1. Vanilla javascript
 
 Add this to your html
+
 ```html
 <script src="mindtree.js"></script>
 ```
-
 
 ```javascript
 var text = `
@@ -57,7 +59,7 @@ Root
 // parse indented text to hierarchy tree
 var data = mindtree.Parsers.TextParser.parse(text);
 // choose a layout
-var MindmapLayout = mindtree.MindmapLayouts.Standard; 
+var MindmapLayout = mindtree.MindmapLayouts.Standard;
 
 // build Mindmap object
 var mindMap = new mindtree.MindMap(data.root, MindmapLayout, {});
@@ -69,32 +71,28 @@ viewer.render(mindMap);
 ```
 
 ### 2. With ES6
+
 Import required classes
 
 ```javascript
-import {MindMap, Viewer, Parsers, MindmapLayout} from 'mindtree'
+import { MindMap, Viewer, Parsers, MindmapLayout } from "mindtree";
 ```
 
 And then follows the same steps as above
- 
 
 ## Features
 
-- **Parser**
-	- Indented text
+- **Parser** - Indented text
 
-- **Layout**
-	- Standard
-	- RightLogical
-    - DownwardOrganizational
-    - UpwardOrganizational
-    - LeftLogical
-
+- **Layout** - Standard - RightLogical
+  - DownwardOrganizational
+  - UpwardOrganizational
+  - LeftLogical
 
 ## Credits
-- 	Thanks [leungwensen](https://github.com/leungwensen), This library is inspired by his repo [Mindmap layouts](https://github.com/leungwensen/mindmap-layouts). And I still copy the layout code from his source
+
+-     Thanks [leungwensen](https://github.com/leungwensen), This library is inspired by his repo [Mindmap layouts](https://github.com/leungwensen/mindmap-layouts). And I still copy the layout code from his source
 
 - Thanks @stetrevor for his library [non-layered-tidy-tree-layout](https://github.com/stetrevor/non-layered-tidy-tree-layout)
 
 - This project use [two.js](https://two.js.org/) for the rendering mindmap.
-

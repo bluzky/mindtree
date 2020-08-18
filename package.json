@@ -1,9 +1,20 @@
 {
   "name": "@bluzky/mindtree",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "private": false,
   "description": "Mindmap viewer for web",
+  "license": "MIT",
+  "author": "Daniel Nguyen <bluesky.1289@gmail.com>",
+  "repository": "github:bluzky/mindtree",
   "main": "dist/js/mindtree.js",
+  "files": [
+    "dist/",
+    "src/",
+    "index.html",
+    "LICENSE",
+    "README.md",
+    "example"
+  ],
   "scripts": {
     "watch": "webpack --watch --progress --mode development",
     "start": "webpack-dev-server",
