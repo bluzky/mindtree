@@ -54,13 +54,38 @@ class MindmapViewer {
   }
 
   zoomBy(percent, x = 0, y = 0) {
-    let dx = x * (this.scale + percent) - x * this.scale;
-    let dy = y * (this.scale + percent) - y * this.scale;
-    this.two.scene.scale = this.scale = this.scale + percent;
+    let translation = this.two.scene.translation.clone()
+    let currentCoord = this.clientToLocalCoord(x, y, this.scale)
+    let newScale = this.scale + this.scale * percent
+    let newCoord = this.clientToLocalCoord(x, y, newScale)
 
-    this.translateBy(-dx, -dy);
+    let dx = (newCoord.x - currentCoord.x)
+    let dy = (newCoord.y - currentCoord.y)
+    let newTranslation = this.localToClientCoord(dx, dy, newScale)
+    this.two.scene.scale = this.scale = newScale;
+
+    // this.translateBy(-dx, -dy);
+    this.two.scene.translation.copy(newTranslation)
     this.two.update();
   }
+
+
+  clientToLocalCoord(x, y, scale) {
+    let translation = this.two.scene.translation.clone()
+    let localCoord = new Two.Vector(x, y)
+    localCoord.subSelf(translation)
+    localCoord.divideScalar(scale)
+    return localCoord
+  }
+
+  localToClientCoord(x, y, scale) {
+    let clientCoord = new Two.Vector(x, y)
+    clientCoord.multiplyScalar(scale)
+    clientCoord.addSelf(this.two.scene.translation)
+    return clientCoord
+  }
+
+
 
   centerView() {
     let clientRect = this.mindMap.getBoundingBox();
@@ -96,9 +121,47 @@ class MindmapViewer {
       e.stopPropagation();
       e.preventDefault();
 
-      var dy = e.deltaY / 100;
-      this.zoomBy(dy, e.clientX, e.clientY);
+      const direction = e.deltaY > 0 ? -1 : 1;
+      const factor = 0.03;
+      const zoom = direction * factor
+
+      let coord = this.getClientCoord(e)
+      this.zoomBy(zoom, coord.x, coord.y);
     });
+
+    stage.addEventListener("click", (e) => {
+      let coord = this.getClientCoord(e)
+      this.clientToLocalCoord(coord.x, coord.y, this.scale)
+    })
+  }
+
+  getClientCoord(mouseEvent) {
+    var obj = mouseEvent.currentTarget || mouseEvent.target
+    obj = obj.parentNode;
+    var objLeft = 0;
+    var objTop = 0;
+    var xpos;
+    var ypos;
+
+    while (obj.offsetParent) {
+      objLeft += obj.offsetLeft;
+      objTop += obj.offsetTop;
+      obj = obj.offsetParent;
+    }
+    if (mouseEvent) {
+      //FireFox
+      xpos = mouseEvent.pageX;
+      ypos = mouseEvent.pageY;
+    }
+    else {
+      //IE
+      xpos = window.event.x + document.body.scrollLeft - 2;
+      ypos = window.event.y + document.body.scrollTop - 2;
+    }
+    xpos -= objLeft;
+    ypos -= objTop;
+
+    return { x: xpos, y: ypos }
   }
 
   bindMouseDrag() {

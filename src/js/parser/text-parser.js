@@ -7,14 +7,17 @@ function parse(text) {
     let currentLevel = 0
 
     for (let line of lines) {
+        let content = getContent(line)
+        if (content.trim() === "") continue
+
         if (root == null) {
             root = {
-                content: getContent(line),
+                content: content,
                 children: []
             }
             levelStack.push({ node: root, level: 0 })
         } else {
-            let content = getContent(line)
+
             let level = getLevel(line)
             let node = {
                 content: content,
@@ -24,8 +27,6 @@ function parse(text) {
             if (level == 0) {
                 break
             }
-
-            let lastIndex = levelStack.length - 1
 
             while (levelStack[levelStack.length - 1].level > level) {
                 levelStack.pop()
@@ -50,7 +51,7 @@ function parse(text) {
 }
 
 function getLevel(line) {
-    line = line.replace(/\t/, "    ")
+    line = line.replace(/\t/g, "    ")
     let leadingWs = line.match(/^\s*/)
     leadingWs = leadingWs[0] || ""
     return Math.round(leadingWs.length / 4)
