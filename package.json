@@ -35,7 +35,7 @@
     "terser-webpack-plugin": "^4.1.0",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.11.0"
+    "webpack-dev-server": "^4.11.1"
   },
   "dependencies": {
     "non-layered-tidy-tree-layout": "^2.0.2",
